@@ -1,0 +1,1345 @@
+*{
+	padding: 0;
+	margin: 0;
+	border: 0;
+    font-family: 'Akshar', sans-serif;
+    color: #fefefe;
+}
+*,*:before,*:after{
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+}
+:focus,:active{outline: none;}
+a:focus,a:active{outline: none;}
+
+nav,footer,header,aside{display: block;}
+
+html,body{
+	height: 100%;
+	width: 100%;
+	font-size: 100%;
+	line-height: 1;
+	font-size: 14px;
+	-ms-text-size-adjust: 100%;
+	-moz-text-size-adjust: 100%;
+	-webkit-text-size-adjust: 100%;
+}
+input,button,textarea{font-family:inherit;}
+
+input::-ms-clear{display: none;}
+button{cursor: pointer;}
+button::-moz-focus-inner {padding:0;border:0;}
+a, a:visited{text-decoration: none;}
+a:hover{text-decoration: none;}
+ul li{list-style: none;}
+img{vertical-align: top;}
+
+h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight: 400;}
+/*--------------------*/
+// --------------------------------------------------------------
+// --------------------------------------------------------------
+// --------------------------------------------------------------
+// --------------------------------------------------------------
+// --------------------------------------------------------------
+
+%flex-center{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+%minMaxWeight{
+    min-height: 100%;
+    max-height: 100%;
+}
+
+// --------------------------------------------------------------
+// --------------------------------------------------------------
+// --------------------------------------------------------------
+// --------------------------------------------------------------
+// --------------------------------------------------------------
+// --------------------------------------------------------------
+$mobilePoint:1000px;
+// --------------------------------------------------------------
+// --------------------------------------------------------------
+// --------------------------------------------------------------
+// --------------------------------------------------------------
+// --------------------------------------------------------------
+// --------------------------------------------------------------
+%fonColor{
+    background-color: rgb(33,33,33);
+}
+
+%fonColorHover{
+    background-color: rgb(59, 59, 59);
+}
+
+%ButtonfonColorHover{
+    background-color: rgb(90, 90, 90);
+}
+
+%transition03{
+    transition: all .3s ease;
+}
+// --------------------------------------------------------------
+// --------------------------------------------------------------
+// --------------------------------------------------------------
+// --------------------------------------------------------------
+// --------------------------------------------------------------
+// --------------------------------------------------------------
+// --------------------------------------------------------------
+// --------------------------------------------------------------
+// --------------------------------------------------------------
+// --------------------------------------------------------------
+body{
+    // position: relative;
+    overflow: hidden;
+}
+
+.blur-block{
+    background-color: rgba(0, 0, 0, 0.5);
+    width: 100%;
+    height: 100%;
+    position:absolute;
+    z-index: 11;
+
+    // hover
+    &:hover &__line-1{
+        background-color: #fff;
+    }
+
+    &:hover &__line-2{
+        background-color: #fff;
+    }
+    // hover^^
+
+    %line{
+        height: 3px;
+        background-color: #a7a7a7;
+        margin: auto;
+    }
+
+    &__cross{
+        position: absolute;
+        right: 10px;
+        top: 10px;
+        width: 40px;
+        height: 40px;
+        @extend %flex-center;
+        flex-direction: column;
+        cursor: pointer;
+    }
+
+    &__line-1{
+        width: 90%;
+        transform: rotate(45deg);
+        @extend %line;
+        @extend %transition03;
+    }
+
+    &__line-2{
+        transform: rotate(-90deg);
+        @extend %line;
+        @extend %transition03;
+    }
+}
+
+.rating-container{
+    width: 50px;
+    height: 50px;
+    transition: all .2s ease;
+
+    @extend %flex-center;
+    
+    &__color{
+        $boederSize:3px;
+        border: $boederSize solid rgba(255, 255, 255, 0);
+        width: 100%;
+        height: 100%;
+        border-radius: 500px;
+        @extend %flex-center;
+
+        &-red{
+            border: $boederSize solid  red;
+            background-color: rgba(255, 0, 0, 0.500);
+            &:hover{
+                box-shadow: 0px 0px 20px 5px rgba(255, 0, 0, 0.500);
+            }
+        }
+
+        &-yellow{
+            border: $boederSize solid yellow;
+            background-color: rgba(255, 255, 0, 0.500);
+            &:hover{
+                box-shadow: 0px 0px 20px 5px rgba(255, 255, 0, 0.500);
+            }
+        }
+
+        &-green{
+            border: $boederSize solid green;
+            background-color: rgba(0, 128, 0, 0.500);
+            &:hover{
+                box-shadow: 0px 0px 20px 5px rgba(0, 128, 0, 0.500);
+            }
+        }
+    }
+}
+
+.movie-info{
+    $borderColor: grey;
+
+    display: grid;
+    grid-template: auto auto auto / 1fr 1fr 1fr;
+    grid-auto-rows: auto;
+    grid-template-areas: 
+    "photo info rate"
+    "functions functions functions"
+    "coments coments coments";
+
+    @extend %fonColor;
+    width: 90%;
+    min-width: 500px;
+    height: 500px;
+    border: 2px solid $borderColor;
+    border-radius: 10px;
+    padding: 10px;
+    position: absolute;
+    left: 0; right: 0; top: 20%;
+    margin: auto;
+    overflow: auto;
+    z-index: 12;
+
+    @media (max-width:$mobilePoint) {
+        top: 10%;
+        width: 500px;
+        height: 80%;
+        max-width: 90%;
+        min-width: 300px;
+
+        grid-template-areas: 
+        "photo photo photo"
+        "info info info"
+        "rate rate rate"
+        "functions functions functions"
+        "coments coments coments";
+    }
+
+    &__photo-section, &__info-section, &__rate-section{
+        height: auto;
+        @extend %flex-center;
+        flex-direction: column;
+        
+        @media (min-width:$mobilePoint) {
+            padding-top: 10%;
+            justify-content: start;
+        }
+    }
+
+    &__section-name{
+        font-size: 18px;
+        font-weight: bold;
+        color: $borderColor;
+    }
+
+    &__photo-section{
+        grid-area: photo;
+    }
+
+    &__photo-container{
+        width: 200px;
+        height: 250px;
+        overflow: hidden;
+        border: 2px solid #fff;
+        border-radius: 4px;
+        img{
+            width: 100%;
+            object-fit: fill;
+        }
+    }
+
+    &__info-section{
+        flex-direction: column;
+        align-items: flex-start;
+        grid-area: info;
+
+        @media (max-width:$mobilePoint) {
+            margin-top: 50px;
+        }
+
+        div{
+            margin: 10px 10px 10px 0px;
+
+            @media (max-width:$mobilePoint) {
+                &:first-child{
+                    margin: 10px auto 10px auto;
+                }
+            }
+
+        }
+    }
+
+    &__name{
+        font-weight: bold;
+        font-size: 22px;
+        letter-spacing: 1px;
+        margin: auto    ;
+    }
+
+    &__overview{
+        letter-spacing: 1px;
+        line-height: 20px;
+        font-size: 16px;
+        font-weight: 400;
+    }
+
+    &__release-date{
+        letter-spacing: 1px;
+        line-height: 20px;
+        font-size: 15px;
+    }
+
+    &__rate-section{
+        grid-area: rate;
+    }
+
+    &__ratingrating-container{
+        width: 200px;
+        height: 200px;
+        div{
+            border-width: 5px;
+            font-size: 30px;
+            @extend %transition03
+        }
+    }
+
+   &__functions-section{
+       grid-area: functions;
+       @extend %flex-center;
+       flex-wrap: wrap;
+
+       button{
+           min-width: 200px;
+           width: auto;
+           height: 50px;
+           border-radius: 50px;
+           padding: 10px;
+           margin: 10px;
+           font-size: 17px;
+           font-weight: bold;
+           letter-spacing: 2px;
+
+           @extend %fonColorHover;
+           @extend %transition03;   
+
+           &:hover{
+               @extend %ButtonfonColorHover
+           }
+        }
+   }
+
+
+
+   &__coments-section{
+       grid-area: coments;
+   }
+
+    // make scroll beautiful
+    &::-webkit-scrollbar{
+        width: 5px;
+    }
+    
+    &::-webkit-scrollbar-track{
+        background-color: none;
+    }
+    
+    &::-webkit-scrollbar-thumb{
+        background-color: rgba(255, 255, 255, 0.521);
+        border-radius: 50px;
+    }
+    // make scroll beautiful^^
+
+    // display: none;
+
+}
+
+.coment-editor{
+    $borderColor: grey;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 10%;
+    margin: auto;
+    padding: 20px;
+    width: 40%;
+    height: 70%;
+    border: 1px solid $borderColor;
+    border-radius: 10px;
+    z-index: 13;
+    @extend %fonColor;
+
+    @media (max-width:$mobilePoint) {
+        width: 80%;
+        height: 70%;
+    }
+
+    &__form{
+        height: 100%;
+    }
+
+    &__textarea{
+        width: 100%;
+        height: 80%;
+        border-radius: 5px;
+        color: #fefefe;
+        padding: 5px;
+        font-size: 16px;
+        @extend %ButtonfonColorHover;
+        @extend %transition03;
+
+        &:focus{
+            border: 2px solid rgb(197, 197, 197);
+        }
+    }
+
+    &__buttons-container{
+        width: 100%;
+        height: 10%;
+        display: flex;
+        justify-content:space-between;
+        margin-top: 10%;
+
+        button{
+            padding: 5px;
+            margin: 5px;
+            width: 150px;
+            height: 40px;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 16px;
+            letter-spacing: 1px;
+            @extend %fonColorHover;
+
+            @media (max-width:$mobilePoint) {
+                width: 110px;
+                font-size: 14px;
+                margin: 5px;
+            }
+        }
+    }
+
+}
+
+.coment{
+    border-radius: 10px;
+    margin-bottom: 10px;
+    padding: 5px;
+    font-size: 15px;
+    line-height: 20px;
+    letter-spacing: 1px;
+    @extend %transition03;
+    
+    &:hover{
+        @extend %fonColorHover;
+    }
+
+    &:hover &__settings{
+        opacity: 1;
+    }
+    
+    &__additional{
+        @extend %flex-center;
+        justify-content: space-between;
+    }
+
+    &__section-name{
+        margin: 5px 5px 5px 0;
+        font-size: 18px;
+        font-weight: bold;
+        color: grey;
+    }
+
+    &__text{
+        // background-color: red;
+        padding: 0px 5px;
+        width: 100%;
+    }
+
+    &__settings{
+        position: relative;
+        @extend %transition03;
+        opacity: 0;
+
+        @media (max-width:$mobilePoint) {
+            opacity: 1;
+            
+        }
+    }
+}
+
+.ask-shelf{
+    $borderColor: grey;
+    position: absolute;
+    right: 0;
+    left: 0;
+    top: 20%;
+    margin: auto;
+    border: 2px solid $borderColor;
+    border-radius: 10px;
+    width: 300px;
+    min-height : 100px;
+    height: 60%;
+    z-index: 13;
+    overflow: hidden;
+    @extend %fonColor;
+
+    &__content{
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        padding-bottom: 60px;
+
+        // make scroll beautiful
+        &::-webkit-scrollbar{
+            width: 5px;
+        }
+            
+        &::-webkit-scrollbar-track{
+            background-color: none;
+        }
+            
+        &::-webkit-scrollbar-thumb{
+            background-color: rgba(255, 255, 255, 0.521);
+            border-radius: 50px;
+        }
+        // make scroll beautiful^^
+    }
+
+    &__form{
+        padding: 5px;
+    }
+
+    &__input{
+        letter-spacing: 1px;
+        font-weight: 600;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        margin: 5px;
+        input{
+            margin: 5px;
+        }
+    }
+
+    &__button{
+        display: flex;
+        justify-content: space-between;
+        position: absolute;
+        width: 100%;
+        padding: 15px;
+        bottom: 0;
+        button{
+            padding: 5px;
+            width: 120px;
+            height: 30px;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 16px;
+            letter-spacing: 1px;
+            @extend %fonColorHover;
+        }
+
+
+    }
+
+
+
+
+}
+
+.shelf-editor{
+    $borderColor: grey;
+    %inputStyls{
+        @extend %fonColorHover;
+        border: 1px solid $borderColor;
+        height: 40px;
+        border-radius: 50px;
+        padding: 10px;
+        font-size: 15px;
+    }
+    @extend %fonColor;
+    display: none;
+    width: 50%;
+    min-width: 500px;
+    height: auto;
+    border: 2px solid $borderColor;
+    padding: 10px;
+    position: absolute;
+    left: 0; right: 0; top: 20%;
+    margin: auto;
+    z-index: 12;
+    
+    section{
+        height: 150px;
+
+        @media (max-height:600px) {
+            height: 100px;
+
+        }
+
+        &:last-child{
+            height: auto;
+        }
+    }
+
+    @media (max-width:$mobilePoint) {
+        width: 500px;
+        max-width: 90%;
+        min-width: 300px;
+    }
+
+    @media (max-height:500px) {
+        top: 10%;
+    }
+
+
+
+    &__photo-section{
+        display: flex;
+        align-items: center;
+        margin-top: 30px;
+    }
+
+    &__photo-input{
+        @extend %inputStyls;
+        width: 75%;
+    }
+
+    &__photo-container{
+        $theSize:90px;
+        width: $theSize;
+        height: $theSize;
+        border: 2px solid $borderColor;
+        border-radius: 50px;
+        overflow: hidden;
+        margin: auto;
+
+        img{
+            height: 100%;
+            object-fit: fill;
+        }
+
+        @media (max-width:500px) {
+            $theSize:60px;
+            width: $theSize;
+            height: $theSize;
+        }
+    }
+
+    &__name-section{
+        margin-top: 30px;
+    }
+
+    &__name-input{
+        @extend %inputStyls;
+        width: 95%;
+        margin-bottom: 25px;
+    }
+
+    &__button-section{
+        display: flex;
+        flex-direction: row-reverse;
+        margin-top: 30px;
+    }
+
+    &__button{
+        @extend %fonColorHover;
+        @extend %transition03;
+        width: 150px;
+        height: 40px;
+        border-radius: 50px;
+        margin-right: 5%;
+        font-size: 18px;
+        font-weight: bold;
+        letter-spacing: 2px;
+
+        &:hover{
+            @extend %ButtonfonColorHover;
+        }
+    }
+
+    &__waring{
+        color: $borderColor;
+    }
+}
+
+.menu{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &__line-container{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-around;
+        height: 45%;
+        width: 55%;
+    }
+    &__line{
+        width: 100%;
+        height: 2px;
+        border-radius: 50px;
+        background-color: rgb(255, 255, 255);
+    }
+}
+
+.arrow{
+    $arrowBorderSize:2px;   
+
+    width: 40%;
+    height: 40%;
+    border: $arrowBorderSize solid #fff;
+    transform: rotate(45deg);
+    border-top: $arrowBorderSize solid rgba(255, 255, 255, 0);
+    border-right: $arrowBorderSize solid rgba(255, 255, 255, 0);
+
+    &__line{
+        width: 200%;
+        height: 2px;
+        border: 1px solid #fff;
+        transform: rotate(-45deg) translate(-20.5%);
+
+    }
+}
+
+.more{
+    width: 50px;
+    height: 50px;
+    background-color: #fff;
+    border-radius: 50px;
+    @extend %flex-center;
+
+    &__container{
+        $sizeOfContainer:50%;
+
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: $sizeOfContainer;
+        height: $sizeOfContainer;
+
+
+    }
+
+    &__point{
+        $pointSize: 25%;
+
+        width: $pointSize;
+        height: $pointSize;
+        border-radius: 50px;
+        background-color: #000;
+    }
+}
+
+.settings{
+    width: 20px;
+    height: 20px;
+    padding:2px;
+    background-color: #fefefe7a;
+    border-radius: 50px;
+    @extend %flex-center;
+    justify-content: space-between;
+    cursor: pointer;
+
+    &:hover &__additional-menu{
+        display: block;
+        animation: appear .5s ease ;
+    }
+
+    &:hover &__arrow-container{
+        width: 50px;
+        height: 50px;
+    }
+
+    &:hover &__arrow{
+        width: 25px;
+        height: 25px;
+    }
+
+    &__dot{
+        width: 4px;
+        height: 4px;
+        border-radius: 50px;
+        background-color: #fff;
+    }
+
+    &__additional-menu{
+        display: none;
+        position: absolute;
+        top: -125%;
+        right: 100%;
+        z-index: 2;
+
+        @keyframes appear {
+            0%{
+                width: 0;
+                height: 0;
+                opacity: 0;
+            }
+            100%{
+                opacity: 1;
+                width: auto;
+                height: auto;
+            }
+            
+        }
+    }
+
+    &__arrow-container{
+        position: absolute;
+        right: 50%;
+        width: 0px;
+        height: 0px;
+        border-radius: 50px;
+        transform: rotate(45deg);
+        @extend %flex-center;
+        @extend %transition03;
+    }
+
+    &__arrow{
+        width: 0px;
+        height: 0px;
+        @extend %ButtonfonColorHover;
+    }
+
+   
+}
+
+.additional-menu{
+    $borderColor: grey;
+
+    width: auto;
+    padding: 10px;
+
+    &__list{
+        width: 100%;
+        border: 1px solid $borderColor;
+        border-radius: 10px;
+        overflow: hidden;
+        @extend %fonColorHover;
+    }
+
+    &__item{
+        border: 1px solid $borderColor;
+        min-height: 40px;
+        padding: 10px;
+        font-weight: 600;
+        letter-spacing:1px;
+        @extend %flex-center;
+        @extend %transition03;
+
+        &:hover{
+            @extend %ButtonfonColorHover;
+
+        }
+    }
+}
+
+.add-bhelf-button{
+    %line{
+        $LineColor:#fff;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        left: 0;
+        margin: auto;
+        width: 33%;
+        height: 3px;
+        border: 1px solid $LineColor;
+        background-color: $LineColor;
+    }
+
+    width: 100px;
+    height: 100px;
+    background-color: #000;
+    border-radius: 50px;
+    overflow: hidden;
+    position: relative;
+
+    &__line-1{
+        @extend %line;
+
+    }
+    &__line-2{
+        @extend %line;
+        transform: rotate(90deg);
+    }
+}
+
+.change-width{
+    background-color: none;
+    cursor: pointer;
+}
+
+.wraper{
+    position: relative;
+    @extend %minMaxWeight;
+    display: grid;
+    grid-template: minmax(60px, auto) 1fr / minmax(320px, 400px) 1fr;
+    grid-template-areas: 
+    "header main"
+    "aside main";
+
+    @media(max-width:$mobilePoint){
+        grid-template-areas: 
+        "header header"
+        "main main";
+    }
+}
+
+.header{
+    $squerSize:35px;
+
+    @extend %fonColor;
+    grid-area: header;
+    display: grid;
+    grid-template: 1fr / 1fr 2px;
+
+    &__content{
+        border-bottom: 2px solid #4e4e4e;
+        display: flex;
+        align-items: center;
+        padding: 10px;
+    }
+
+
+    &__menu{
+        position: relative;
+        border-radius: 50px;
+        width: $squerSize;
+        height: $squerSize;
+        @extend %transition03;
+        display: none;
+
+        &:hover{
+            @extend %fonColorHover;
+        }
+
+        @media (max-width:$mobilePoint) {
+            display: flex;
+        }
+
+    }
+
+    &__form{
+        margin-left: 10%;
+        width: 90%;
+        justify-content: start;
+    }
+
+    &__input{
+        @extend %fonColorHover;
+        height: $squerSize;
+        width: 70%;
+        padding: 5px 10px;
+        border-radius: 50px;
+        font-size: 18px;
+
+        @media (max-width:420px) {
+            width: 55%;
+            
+        }
+    }
+
+    &__button{
+        @extend %fonColorHover;
+        width: auto;
+        height: $squerSize;
+        border-radius: 50px;
+        padding: 10px;
+        margin-left: 5%;
+        color: white;
+        font-weight: bolder;
+        letter-spacing: 1px;
+        @extend %transition03;
+
+        &:hover{
+            @extend %ButtonfonColorHover;
+        }
+    }
+}
+
+.main{
+    grid-area: main;
+    background-color: rgb(20, 20, 20);
+    background-image: url(https://web.telegram.org/z/chat-bg-dark.4d8c9dce3544b239b64b..png);
+    background-position: top left;
+    background-size: 650px;
+    background-repeat: repeat;
+    overflow: auto;
+
+    // make scroll beautiful
+    &::-webkit-scrollbar{
+        width: 8px;
+    }
+
+    &::-webkit-scrollbar-track{
+        background-color: none;
+    }
+
+    &::-webkit-scrollbar-thumb{
+        background-color: rgba(255, 255, 255, 0.521);
+        border-radius: 50px;
+    }
+    // make scroll beautiful^^
+
+    &__grid-movies-container{
+        margin: 10px;
+
+        //grid
+        display: grid;
+        grid-template: 1fr / repeat(auto-fit, minmax(200px,auto));
+        grid-auto-rows: 1fr;
+        gap: 10px;
+        justify-items: center;
+        //grid^^
+    }
+
+    &__page-switcher{
+        margin: auto;
+    }
+}
+
+.page-switcher{
+    // border: 1px solid rgb(255, 0, 0);
+    width: 300px;
+    height: 50px;
+
+    &__pages{
+        height: 100%;
+        @extend %flex-center;
+        justify-content: space-around;
+    }
+
+    &__page{
+        $sizeOfPage:35px;
+
+        width: $sizeOfPage;
+        height: $sizeOfPage;
+        background-color: #666666;
+        border-radius: 5px;
+        cursor: pointer;
+        @extend %flex-center;
+
+        &:hover{
+            background-color: #9e9e9e;
+            box-shadow: 0px 0px 10px 5px rgba(255, 255, 255, 0.26);
+
+        }
+    }
+
+    &__active-page{
+        background-color: #ffffff;
+        color: #000;
+    }
+}
+
+.movie-container{
+    $heightOfMovie:250px;
+    $borderColor:rgb(199, 199, 199);
+    $filmBorderRadios: 4px;
+
+    @extend %transition03;
+
+    position: relative;
+    width: 200px;
+    height: $heightOfMovie;
+    margin: 5px;
+    border: 2px solid rgba(192, 53, 53, 0);
+    border-radius: $filmBorderRadios;
+
+    //hover
+    &:hover{
+        box-shadow: 0px 0px 20px 5px rgba(255, 255, 255, 0.35);
+    }
+
+    &:hover &__movie{
+        border: 2px solid #fff;
+    }
+
+    &:hover &__title-of-the-movie{
+        white-space: normal;
+        z-index: 2;
+    }
+
+    &:hover &__more{
+        display: flex;
+        z-index: 2;
+    }
+
+    &:hover &__blur-block{
+        display: block;
+        position: absolute;
+        top: 0;
+        right: 0;
+        left: 0;
+        bottom: 0;
+        background-color: #0000008c;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+    }
+
+    &:hover &__ratingrating-container{
+        display: flex;
+    }
+
+    //hover^^
+
+    &__movie{
+        border: 1px solid #fff;
+        height: $heightOfMovie;
+        border-radius: $filmBorderRadios;
+        cursor: pointer;
+        position: relative;
+    }
+
+    &__ratingrating-container{
+        display: none;
+        width: 30px;
+        height: 30px;
+        font-size: 12px;
+        position: absolute;
+        top: 1%;
+        right: 1%;
+        z-index: 2;
+
+        &:hover{
+            width: 35px;
+            height: 35px;
+        }
+    }
+
+    &__blur-block{
+        display: none;
+    }
+
+    &__more{
+        @extend %transition03;
+
+        display: none;
+        background-color: #ffffffc9;
+        position: absolute;
+        margin: auto;
+        right: 0;
+        left: 0;
+        bottom: 0;
+        top: 0;
+        
+
+        &:hover{
+            width: 60px;
+            height: 60px;
+            background-color: #fff;
+        }
+    }
+
+    &__title-of-the-movie{
+        position: absolute;
+        width: 70%;
+        left: 0;
+        right: 0;
+        bottom: 5px;
+        margin: 0 auto;
+        text-align: center;
+        font-weight: 500;
+        letter-spacing: 1px;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+    }
+
+
+}
+
+.aside{
+    @extend %fonColor;
+    @extend %minMaxWeight;
+    @extend %transition03;
+    grid-area: aside;
+    display: grid;
+    grid-template: 1fr / 1fr 2px;
+    position: relative;
+    z-index: 10;
+
+    //hover
+    &:hover &__add-bhelf-button{
+        $theSize:60px;
+        width: $theSize;
+        height: $theSize;
+    }
+    //hover^^
+
+    &__mobile-block{
+        min-height: 60px;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        @media (min-width:$mobilePoint) {
+            display: none;
+        }
+    }
+
+    &__arrow-back{
+        position: absolute;
+        width: 50px;
+        height: 50px;
+        margin: 0 0 10px 10px;
+        @extend %flex-center
+    }
+
+    &__title{
+        font-size: 22px;
+        font-weight: 800;
+        margin: 0 auto 0 auto;
+    }
+
+    &__add-bhelf-button{
+        @extend %transition03;
+        $theSize:0px;
+        width: $theSize;
+        height: $theSize;
+        position: absolute;
+        bottom: 5%;
+        right: 5%;
+        cursor: pointer;
+
+        @media (max-width:$mobilePoint) {
+            $theSize:60px;
+            width: $theSize;
+            height: $theSize;
+        }
+    }
+
+    // show side on the pone
+    @media(max-width:$mobilePoint){
+        position: absolute;
+        left: -200%;
+        top: 0;
+        width: 100%;        
+    }
+
+    &_on{
+        @media(max-width:$mobilePoint){
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+    }
+    // show side on the pone^^
+    
+    &__content{
+        padding: 10px 5px 25% 5px;
+        overflow: auto;
+        
+        // scrollbar
+        &::-webkit-scrollbar{
+            width: 8px;
+        }
+
+        &::-webkit-scrollbar-track{
+            background-color: none;
+        }
+
+        &::-webkit-scrollbar-thumb{
+            background-color: rgba(0, 0, 0, 0.445);
+            border-radius: 50px;
+        }
+        // scrollbar^^
+
+    }
+}
+
+.shelf{
+    width: 100%;    
+    height: 70px;
+    padding: 2px;  
+    
+
+
+    &__container{
+        border-radius: 10px;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        @extend %transition03;
+
+        &_active{
+            @extend %fonColorHover;
+
+        }
+
+        // hover
+        &:hover{
+            @extend %fonColorHover;
+        }
+
+        &:hover  .shelf__settings{
+            opacity: 1;
+        }
+        // hover^^
+    }
+
+    &__foto-container{
+        $fotoSize:60px;
+        width: $fotoSize;
+        height: $fotoSize;
+        border-radius: 50%;
+        overflow: hidden;
+        background:url(Photo/notfound1.png) center / 100% 100%;
+
+        img{
+            height: 100%;
+            object-fit: fill;
+        }
+    }
+
+    &__info-container{
+        padding: 5px;
+        width: calc(100% - 80px);
+        height: 100%;
+    }
+
+    &__name{
+        color: white;
+        font-size: 17px;
+        letter-spacing:1px;
+        font-weight: 800;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+    }
+
+    &__amount-of-movies{
+        margin: 10px 0;
+        color: rgb(189, 189, 189);
+    }
+
+    &__settings{
+        opacity: 0;
+        position: relative;
+        top: 5px;
+        right: 10px;
+
+        @media (max-width:$mobilePoint) {
+            opacity: 1;
+            
+        }
+        
+    }
+}
