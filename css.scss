@@ -1185,12 +1185,12 @@ body{
     &__mobile-block{
         min-height: 60px;
         position: relative;
-        display: flex;
+        display: none;
         align-items: center;
         justify-content: space-between;
 
-        @media (min-width:$mobilePoint) {
-            display: none;
+        @media (max-width:$mobilePoint) {
+            display: flex;
         }
     }
 

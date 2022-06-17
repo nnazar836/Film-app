@@ -176,13 +176,18 @@ class SideBar extends HTMLObject{
     }
 
     onOff(event){
-        event.stopPropagation()
+        if(event) event.stopPropagation()
         this.body.classList.toggle(`aside_on`)
     }
 
     addShelf(event){
         event.stopPropagation()
         shelfEditor.show()
+    }
+
+    autoOff(){
+        const mobilePoint = 1000
+        if(window.innerWidth <= mobilePoint) this.onOff()
     }
 }
 
@@ -490,6 +495,8 @@ class Shelves{
                 
             }
         })
+
+        sideBar.autoOff()
 
     }
 
@@ -1283,4 +1290,4 @@ const comentEditor = new ComentEditor
 // -------------------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------------------
-application.start() 
+application.start()
