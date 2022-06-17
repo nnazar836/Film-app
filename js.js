@@ -130,6 +130,8 @@ class Main extends HTMLObject{
             shelves.switchPages(nextPage.textContent)
         }
         // ability to switch pages^^
+        
+        main.body.scrollTo({top:0,left:0, behavior:"smooth"})
     }
 }
 const main = new Main
@@ -497,6 +499,7 @@ class Shelves{
         })
 
         sideBar.autoOff()
+        main.body.scrollTo({top:0,left:0, behavior:"smooth"})
 
     }
 
@@ -662,7 +665,7 @@ class Films{
     }
 
     renderMovieList(moviesArray, page){
-
+        
         if(moviesArray.length === 0){
 
             main.moviesContainer.innerHTML = '<p style="font-weight: bold;  font-size: 25px;">Ця полиця є пустою</p>'
@@ -670,46 +673,21 @@ class Films{
             this.changeMovieList([])
 
         } else{
+            let firstItem, lastItem
+            let HTMLCode = ``
 
-            const HTMLCode = moviesArray.reduce((pv,movie,index) => {
+            if(moviesArray.length === 20)[firstItem,lastItem] = [0,moviesArray.length - 1]
+            else [firstItem,lastItem] = this.calculatePage(page)
+            
+            for(;firstItem < lastItem;firstItem++){
 
-                if(!page){
-                    
-                    const HTML = `
+                const movie = moviesArray[firstItem]
+                const index = firstItem
+
+                if(!movie) break
+
+                const HTML =`
                     <div data-number="${index}" class="main__movie-container movie-container">
-    
-                        <div class="movie-container__movie" style="background: url(${Films.checkPhoto(API.GET_Img__URL + movie.poster_path)}) no-repeat center  / cover;">
-    
-                            ${this.renderRating(movie.vote_average,`movie-container`)}
-    
-                            <div class="movie-container__blur-block"></div>
-    
-                            <div class="movie-container__more more">
-    
-                                <div class="more__container">
-                                    <div class="more__point"></div>
-                                    <div class="more__point"></div>
-                                    <div class="more__point"></div>
-                                </div>
-    
-                            </div>
-    
-                            <div class="movie-container__title-of-the-movie">
-                                ${movie.original_title}
-                            </div>
-    
-                        </div>
-    
-                    </div>
-                    `
-                    return pv + HTML
-
-                } else {
-                    const [firstItem,lastItem] = this.calculatePage(page)
-
-                    if((index >= firstItem) && (index <= lastItem)){
-                        const HTML = `
-                        <div data-number="${index}" class="main__movie-container movie-container">
         
                             <div class="movie-container__movie" style="background: url(${Films.checkPhoto(API.GET_Img__URL + movie.poster_path)}) no-repeat center  / cover;">
         
@@ -733,18 +711,11 @@ class Films{
         
                             </div>
         
-                        </div>
-                        `
-                        return pv + HTML
+                    </div>
+                `
 
-                    }else{
-                        return pv + ``
-                    }
-                }
-            
-
-    
-            },``)
+                HTMLCode += HTML
+            }
     
             main.moviesContainer.innerHTML = HTMLCode
             this.changeMovieList(moviesArray)
