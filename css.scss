@@ -195,17 +195,18 @@ body{
     grid-template-areas: 
     "photo info rate"
     "functions functions functions"
+    "video video video"
     "coments coments coments";
 
     @extend %fonColor;
     width: 90%;
     min-width: 500px;
-    height: 500px;
+    height: 90%;
     border: 2px solid $borderColor;
     border-radius: 10px;
-    padding: 10px;
+    padding: 60px 10px;
     position: absolute;
-    left: 0; right: 0; top: 20%;
+    left: 0; right: 0; top: 5%;
     margin: auto;
     overflow: auto;
     z-index: 12;
@@ -222,6 +223,7 @@ body{
         "info info info"
         "rate rate rate"
         "functions functions functions"
+        "video video video"
         "coments coments coments";
     }
 
@@ -340,9 +342,38 @@ body{
 
 
 
+
+
    &__coments-section{
        grid-area: coments;
    }
+
+   &__video-section{
+        grid-area: video;
+        @extend %flex-center;
+        flex-direction: column;
+
+        & .movie-info__section-name{
+            font-size: 30px;
+            letter-spacing: 3px;
+            color: rgb(212, 212, 212);
+            margin: 10px 0;
+        }
+    }
+
+    &__video{
+        width: 800px;
+        height: 400px;
+        margin-bottom: 20px;
+
+
+
+        @media (max-width:$mobilePoint) {
+            width: 500px;
+            max-width:90%;
+            height: 300px;
+        }
+    }
 
     // make scroll beautiful
     &::-webkit-scrollbar{

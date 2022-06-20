@@ -814,6 +814,10 @@ class FilmInfo extends HTMLObject{
                 ${this.renderButtons(obg.coments)}
             </section>
 
+            <section class="movie-info__video-section" name="video">
+                
+            </section>
+
             <section class="movie-info__coments-section" name="coments">
                 ${coments.renderComents(obg.coments)}
             </section>
@@ -823,6 +827,7 @@ class FilmInfo extends HTMLObject{
         this.changeFunctionsSection()
         this.addEvents()
         blurBlock.create(this)
+        this.renderVideo(obg)
     }
 
     renderButtons(coments){
@@ -878,6 +883,29 @@ class FilmInfo extends HTMLObject{
         filmInfo.remove()
 
         shelves.renderShelves()
+    }
+
+    renderVideo(movie){
+        const link = `${API.BASE_url}/movie/${movie.id}/videos?${API.key}`
+        const videoSection = this.body.querySelector(`.movie-info__video-section`)
+
+        const videos = fetch(link).then(resp =>  resp.json())
+        .then(resp =>{
+            let videosArr = resp.results
+
+            return videosArr.reduce((pv, video) => {
+                if(video.site === "YouTube" && video.type === `Trailer`){
+
+                    return pv +=`
+                    <div class="movie-info__section-name">${video.name}</div>
+                    <iframe class="movie-info__video" width="560" height="315" src="https://www.youtube.com/embed/${video.key}" title="${video.name}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`
+
+                }
+                else return pv += ``
+            } ,``)
+
+        })
+        .then(HTML => videoSection.innerHTML = HTML)
     }
 
 }
@@ -963,7 +991,7 @@ class Coments {
         const action = target.dataset.action
         if(!action) return false
         
-        if(action == `delete`) this.delete(index)
+        if(action == `delete` && confirm(`Ви точно хочете видалити цей коментар`)) this.delete(index)
         if(action == `edit`) this.callEditor(movieIndex,index)
     }
 
