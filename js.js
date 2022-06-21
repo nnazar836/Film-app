@@ -125,13 +125,15 @@ class Main extends HTMLObject{
 
     static switcherFunctional(event){// Functional for switcher
         // ability to switch pages
-        let nextPage = event.target.closest(`.page-switcher__page`)
+        let nextPage = event.target.closest(`.page-switcher__page`)        
+
         if(nextPage){
             shelves.switchPages(nextPage.textContent)
+            main.body.scrollTo({top:0,left:0, behavior:"smooth"})
+
         }
         // ability to switch pages^^
         
-        main.body.scrollTo({top:0,left:0, behavior:"smooth"})
     }
 }
 const main = new Main
@@ -479,6 +481,7 @@ class Shelves{
     }
 
     makeActive(id){
+        main.switcher.dataset.searched = false
 
         this.HTMLBodies.forEach(body => {
             const container = body.querySelector(`.shelf__container`)
@@ -488,7 +491,7 @@ class Shelves{
                 container.classList.add(`shelf__container_active`)
                 body.dataset.active = true
                 this.showShelf(id)
-
+                sideBar.autoOff()
 
             } else{
 
@@ -498,7 +501,6 @@ class Shelves{
             }
         })
 
-        sideBar.autoOff()
         main.body.scrollTo({top:0,left:0, behavior:"smooth"})
 
     }
@@ -522,16 +524,31 @@ class Shelves{
 
     switchPages(page){
         const activeShelf = this.findActiveShelf()
-        const id = activeShelf.dataset.id
-        const shelfObj = this.findShelfById(id)
+        let id, shelfObj;
 
-        if(this.isAsync(activeShelf)){
+        if(activeShelf){
+            id = activeShelf.dataset.id
+            shelfObj = this.findShelfById(id)
+        }
+
+        if( main.switcher.dataset.searched == `true`){
+
+            search.getSearchedMovies(search.input.dataset.request, page)
+
+        } else if(this.isAsync(activeShelf)) {
+
             topShelve.showRecommendation(page)
+
         } else {
+
             const amountOfPages = Math.ceil(shelfObj.movies.length / 20)
             films.renderMovieList(shelfObj.movies,page)
             main.renderSwitcher(amountOfPages, page)
+
         }
+
+
+
 
     }
 
@@ -592,6 +609,68 @@ class Films{
 
     start(){
         this.addEvents()
+    }
+
+    renderMovieList(moviesArray, page){
+        
+        if(moviesArray.length === 0){
+
+            main.moviesContainer.innerHTML = '<p style="font-weight: bold;  font-size: 25px;">Ця полиця є пустою</p>'
+            main.renderSwitcher(false)
+            this.changeMovieList([])
+
+        } else{
+            let firstItem, lastItem
+            let HTMLCode = ``
+
+            if(moviesArray.length <= 20)[firstItem,lastItem] = [0,moviesArray.length]
+            else [firstItem,lastItem] = this.calculatePage(page);
+            
+            for(;firstItem < lastItem;firstItem++){
+
+                const movie = moviesArray[firstItem]
+                const index = firstItem
+
+                if(!movie) break
+
+                const HTML =`
+                    <div data-number="${index}" class="main__movie-container movie-container">
+        
+                            <div class="movie-container__movie" style="background: url(${Films.checkPhoto(API.GET_Img__URL + movie.poster_path)}) no-repeat center  / cover;">
+        
+                                ${this.renderRating(movie.vote_average,`movie-container`)}
+        
+                                <div class="movie-container__blur-block"></div>
+        
+                                <div class="movie-container__more more">
+        
+                                    <div class="more__container">
+                                        <div class="more__point"></div>
+                                        <div class="more__point"></div>
+                                        <div class="more__point"></div>
+                                    </div>
+        
+                                </div>
+        
+                                <div class="movie-container__title-of-the-movie">
+                                    ${movie.original_title}
+                                </div>
+        
+                            </div>
+        
+                    </div>
+                `
+
+                HTMLCode += HTML
+            }
+    
+            main.moviesContainer.innerHTML = HTMLCode
+            this.changeMovieList(moviesArray)
+
+        }
+        
+
+
     }
 
     addEvents(){
@@ -662,68 +741,6 @@ class Films{
 
          
         return [firstItem,lastItem]
-    }
-
-    renderMovieList(moviesArray, page){
-        
-        if(moviesArray.length === 0){
-
-            main.moviesContainer.innerHTML = '<p style="font-weight: bold;  font-size: 25px;">Ця полиця є пустою</p>'
-            main.renderSwitcher(false)
-            this.changeMovieList([])
-
-        } else{
-            let firstItem, lastItem
-            let HTMLCode = ``
-
-            if(moviesArray.length === 20)[firstItem,lastItem] = [0,moviesArray.length - 1]
-            else [firstItem,lastItem] = this.calculatePage(page)
-            
-            for(;firstItem < lastItem;firstItem++){
-
-                const movie = moviesArray[firstItem]
-                const index = firstItem
-
-                if(!movie) break
-
-                const HTML =`
-                    <div data-number="${index}" class="main__movie-container movie-container">
-        
-                            <div class="movie-container__movie" style="background: url(${Films.checkPhoto(API.GET_Img__URL + movie.poster_path)}) no-repeat center  / cover;">
-        
-                                ${this.renderRating(movie.vote_average,`movie-container`)}
-        
-                                <div class="movie-container__blur-block"></div>
-        
-                                <div class="movie-container__more more">
-        
-                                    <div class="more__container">
-                                        <div class="more__point"></div>
-                                        <div class="more__point"></div>
-                                        <div class="more__point"></div>
-                                    </div>
-        
-                                </div>
-        
-                                <div class="movie-container__title-of-the-movie">
-                                    ${movie.original_title}
-                                </div>
-        
-                            </div>
-        
-                    </div>
-                `
-
-                HTMLCode += HTML
-            }
-    
-            main.moviesContainer.innerHTML = HTMLCode
-            this.changeMovieList(moviesArray)
-
-        }
-        
-
-
     }
 
     findHTMLChildByindex(index){
@@ -1129,6 +1146,8 @@ class TopShelve extends Shelves{
         delete this.shelves // delete unneeded field
         delete this.shelvesContainer // delete unneeded field
 
+        main.switcher.dataset.searched = false
+
         this.body.addEventListener(`click`, this.showRecommendation.bind(topShelve)) //shows recommendation when we click on body
         this.showRecommendation() //shows recommendation
     }
@@ -1289,4 +1308,56 @@ const comentEditor = new ComentEditor
 // -------------------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------------------
+
+
+
+// search
+
+class Search extends HTMLObject{
+    constructor(){
+        super(`.header__form`)
+        this.input = this.body.querySelector(`.header__input`)
+        this.button = this.body.querySelector(`.header__button`)
+    }
+    start(){
+        this.button.addEventListener(`click`, this.search.bind(search))
+    }
+
+    search(event){
+        event.preventDefault()
+        shelves.makeActive(0)
+        main.switcher.dataset.searched = true
+        this.input.dataset.request = this.input.value
+        this.getSearchedMovies(this.input.value)
+    }
+
+    getSearchedMovies(request,page){
+        const link = API.BASE_url + `/search/movie?` + API.key + `&query=${request}`
+        let result
+
+        if(page) result = fetch(link + `&page=${page}`).then(resp => resp.json())
+        else result = fetch(link).then(resp => resp.json())
+
+        result
+        .then(resp =>{
+            console.log(resp.results);
+            films.renderMovieList(resp.results)
+            main.renderSwitcher(resp.total_pages, resp.page)
+        })
+
+    }
+
+
+}
+
+const search = new Search
+search.start()
+
+// search^^
+
+// -------------------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------------------
+
+
 application.start()

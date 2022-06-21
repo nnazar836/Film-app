@@ -69,8 +69,8 @@
                 </div>
     
                 <form action="#" class="header__form">
-                    <input class="header__input" placeholder="Пошук" type="text">
-                    <button class="header__button">Шукати</button>
+                    <input class="header__input" name="search" placeholder="Пошук" type="text" data-request>
+                    <button class="header__button" name="searchButton">Шукати</button>
                 </form>
             </div>
 
@@ -138,16 +138,7 @@
 
             <section name="pages">
 
-                <div data-curentPage="1" class="main__page-switcher page-switcher">
-
-                    <!-- <ul class="page-switcher__pages">
-                        <li class="page-switcher__page">1</li>
-                        <li class="page-switcher__page">2</li>
-                        <li class="page-switcher__page">3</li>
-                        <li class="page-switcher__page">4</li>
-                        <li class="page-switcher__page">5</li>
-                    </ul> -->
-
+                <div class="main__page-switcher page-switcher" data-curentPage="1" data-searched="false">
                 </div>
 
             </section>
