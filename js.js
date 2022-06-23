@@ -5,8 +5,9 @@ const application = {
         films.start()
         header.start()
         sideBar.start()
-        topShelve.start()
         shelfEditor.start()
+        search.start()
+        topShelve.start()
     }
 }
 
@@ -460,7 +461,8 @@ class Shelves{
 
             localStorage.setItem(`shelves`,JSON.stringify(this.shelves))
             this.renderShelves()
-            
+            topShelve.showRecommendation()
+            this.makeActive(1)
         }
 
     }
@@ -532,8 +534,9 @@ class Shelves{
         }
 
         if( main.switcher.dataset.searched == `true`){
+            const request = search.input.dataset.request
 
-            search.getSearchedMovies(search.input.dataset.request, page)
+            search.search(null,request, page)
 
         } else if(this.isAsync(activeShelf)) {
 
@@ -546,10 +549,6 @@ class Shelves{
             main.renderSwitcher(amountOfPages, page)
 
         }
-
-
-
-
     }
 
     isAsync(shelf){
@@ -1319,40 +1318,92 @@ class Search extends HTMLObject{
         this.input = this.body.querySelector(`.header__input`)
         this.button = this.body.querySelector(`.header__button`)
     }
+
     start(){
         this.button.addEventListener(`click`, this.search.bind(search))
+        this.input.addEventListener(`input`,this.showSearchRecommendation.bind(search))
+        this.input.addEventListener(`blur`, () => setTimeout(this.removeRecList.bind(search),100))
     }
 
-    search(event){
-        event.preventDefault()
+    search(event, request, page){
+        if(event) event.preventDefault()
+        if(!request) request = this.input.value
+
         shelves.makeActive(0)
         main.switcher.dataset.searched = true
         this.input.dataset.request = this.input.value
-        this.getSearchedMovies(this.input.value)
-    }
 
-    getSearchedMovies(request,page){
-        const link = API.BASE_url + `/search/movie?` + API.key + `&query=${request}`
-        let result
-
-        if(page) result = fetch(link + `&page=${page}`).then(resp => resp.json())
-        else result = fetch(link).then(resp => resp.json())
-
-        result
+        this.getSearchedMovies(request,page)
         .then(resp =>{
-            console.log(resp.results);
             films.renderMovieList(resp.results)
             main.renderSwitcher(resp.total_pages, resp.page)
         })
 
+        this.removeRecList()
     }
 
+    getSearchedMovies(request,page){
+        const link = API.BASE_url + `/search/movie?` + API.key + `&query=${request}`
 
+        if(page) return fetch(link + `&page=${page}`).then(resp => resp.json())
+        else return fetch(link).then(resp => resp.json())
+    }
+
+    showSearchRecommendation(){
+        this.removeRecList()
+        const request = this.input.value
+        
+        this.getSearchedMovies(request)
+        .then((resp) =>{
+            const results = resp.results
+
+            if(results && results.length > 0){
+                
+                results.length = window.innerWidth <= 1000 ? 5 : 10
+
+                let HTML =
+                `
+                <div class="header__recommendation">
+                    <ul class="header__recommendation-list">
+                        ${results.map(item => `<li class="header__recommendation-item">${item.original_title}</li>`).join(``)}
+                    </ul>
+                </div>
+                `
+                this.body.insertAdjacentHTML(`afterend`,HTML)
+                this.recListAddFunctions()
+            }
+
+        })
+
+    }
+
+    removeRecList(){
+        const recList = document.querySelector(`.header__recommendation`)
+
+        if(recList){
+            recList.remove()
+            this.removeRecList()
+        }
+    }
+
+    recListAddFunctions(){
+        const recList = document.querySelector(`.header__recommendation`)
+
+        recList.addEventListener(`click`, this.recListFunctions.bind(search))
+    }
+
+    recListFunctions(event){
+        const item = event.target.closest(`.header__recommendation-item`)
+
+        if(item){
+            const request = item.textContent
+            this.search(null, request)
+            this.input.value = request
+        }
+    }
 }
 
 const search = new Search
-search.start()
-
 // search^^
 
 // -------------------------------------------------------------------------------------------------------------

@@ -934,6 +934,7 @@ body{
     $squerSize:35px;
 
     @extend %fonColor;
+    position: relative;
     grid-area: header;
     display: grid;
     grid-template: 1fr / 1fr 2px;
@@ -998,6 +999,41 @@ body{
 
         &:hover{
             @extend %ButtonfonColorHover;
+        }
+    }
+
+    &__recommendation{
+        position: absolute;
+        top:95%;
+        left: 0;
+        width: 100%;
+        border: 2px solid grey;
+        z-index: 11;
+
+
+        @extend %fonColor;
+
+        &-item{
+            min-height: 50px;
+            padding: 5px;
+            font-size: 17px;
+            letter-spacing:1px;
+            border-radius: 10px;
+            cursor: pointer;
+            @extend %flex-center;
+            @extend %transition03;
+
+            &:first-child{
+                border-radius: 0px 0px 10px 10px;
+            }
+
+            &:last-child{
+                border-radius: 10px 10px 0px 0px;
+            }
+
+            &:hover{
+                @extend %fonColorHover;
+            }
         }
     }
 }
