@@ -798,7 +798,7 @@ class FilmInfo extends HTMLObject{
             <section class="movie-info__photo-section" name="photo">
 
                 <div class="movie-info__photo-container">   
-                    <img src="${API.GET_Img__URL + obg.poster_path}" alt="">
+                    <img src="${Films.checkPhoto(API.GET_Img__URL + obg.poster_path)}" alt="">
                 </div>
 
             </section>
@@ -1321,7 +1321,7 @@ class Search extends HTMLObject{
 
     start(){
         this.button.addEventListener(`click`, this.search.bind(search))
-        this.input.addEventListener(`input`,this.showSearchRecommendation.bind(search))
+        this.input.addEventListener(`input`,this.renderRecommendation.bind(search))
         this.input.addEventListener(`blur`, () => setTimeout(this.removeRecList.bind(search),100))
     }
 
@@ -1349,7 +1349,7 @@ class Search extends HTMLObject{
         else return fetch(link).then(resp => resp.json())
     }
 
-    showSearchRecommendation(){
+    renderRecommendation(){
         this.removeRecList()
         const request = this.input.value
         
