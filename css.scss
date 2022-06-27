@@ -552,15 +552,46 @@ body{
     }
 
     &__input{
+        font-size: 17px;
         letter-spacing: 1px;
         font-weight: 600;
         white-space: nowrap;
         text-overflow: ellipsis;
         overflow: hidden;
         margin: 5px;
+
         input{
-            margin: 5px;
+            display: none;
         }
+
+        label{
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+
+
+            span{
+                width: 90%;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                overflow: hidden;
+            }
+        }
+
+        input:checked + label > .ask-shelf__check{
+            background-color: black;
+        }
+
+    }
+
+    &__check{
+        width: 15px;
+        height: 15px;
+        margin: 5px;
+        border: 3px solid rgb(255, 255, 255);
+        border-radius: 50px;
+        background-color: white;
+        @extend %transition03;
     }
 
     &__button{

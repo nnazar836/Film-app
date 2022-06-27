@@ -1076,7 +1076,10 @@ class AskShelf extends HTMLObject{
         return shelves.shelves.reduce((pv,shelf) =>{
             return pv + `<div class="ask-shelf__input">
                             <input name="shelf" value="${shelf.id}" id="${shelf.id}" type="radio">
-                            <label for="${shelf.id}">${shelf.name}</label>
+                                <label for="${shelf.id}">
+                                    <div class="ask-shelf__check"></div>
+                                    <span>${shelf.name}</span>
+                                </label>
                         </div>`
         },``)
     }
