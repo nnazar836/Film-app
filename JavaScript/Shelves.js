@@ -64,9 +64,15 @@ class Shelves{
     }
 
     addListeners(){
-        this.HTMLBodies.forEach(body => {
+
+        for(let i = 0; i < this.HTMLBodies.length; i++){
+            let body = this.HTMLBodies[i]
+
+            if(body.dataset.listener === 'true') continue;
+            if(body.dataset.listener) body.dataset.listener = 'true'
+
             body.addEventListener(`click`, this.events.bind(this))
-        })
+        }
     }
 
     events(event){

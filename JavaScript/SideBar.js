@@ -25,6 +25,7 @@ class SideBar extends HTMLObject{
     }
 
     autoOff(){
+        console.log(1);
         const mobilePoint = 1000
         if(window.innerWidth <= mobilePoint) this.onOff()
     }
