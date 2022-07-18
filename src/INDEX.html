@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="css.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Akshar:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <title>Film APP</title>
+</head>
+<body>    
+
+    <div class="shelf-editor" data-shelf_id="/"> 
+        <form class="shelf__editor-form" name="editShelf" action="#">
+            <section name="photo" >
+
+                <div class="shelf-editor__photo-section">
+
+                    <input class="shelf-editor__photo-input" name="photoInput" placeholder="Вкажіть посилання на фото" type="text">
+    
+                    <div class="shelf-editor__photo-container">
+                        <img src="" alt="Photo">
+                    </div>
+
+                </div>
+
+            </section>
+            
+            <section name="name">
+
+                <div class="shelf-editor__name-section">
+
+                    <input class="shelf-editor__name-input" maxlength="50" name="nameInput" placeholder="Вкажіть ім'я полиці" type="text">
+
+                </div>
+
+            </section>
+
+            <section name="button">
+
+                <div class="shelf-editor__button-section">
+
+                    <button class="shelf-editor__button" type="submit">Виконати</button>
+
+                </div>
+
+            </section>
+
+        </form>
+    </div>
+
+    <div class="wraper">
+        <header class="header">
+
+            <div class="header__content">
+
+                <div class="header__menu menu">
+                    <div class="menu__line-container">
+                        <div class="menu__line"></div>
+                        <div class="menu__line"></div>
+                        <div class="menu__line"></div>
+                    </div>
+
+                </div>
+    
+                <form action="#" class="header__form">
+                    <input class="header__input" name="search" placeholder="Пошук" type="text" data-request>
+                    <button class="header__button" name="searchButton">Шукати</button>
+                </form>
+            </div>
+
+            <div class="change-width"></div>
+        </header>
+
+        <aside class="aside">
+
+            <div class="aside__content">
+                
+                <div class="aside__mobile-block">
+
+                    <div class="aside__arrow-back">
+                        <div class="arrow">
+                            <div class="arrow__line"></div>
+                        </div>
+                    </div>
+
+                    <div class="aside__title">
+                        Мої полички
+                    </div>
+
+                </div>
+
+                <div class="shelf shelf-in-the-top" data-listener="false" data-id="1" data-active="true" data-async="true" > <!--always has to have id = 1 -->
+
+                    <div class="shelf__container shelf__container_active">
+
+                        <div class="shelf__foto-container">
+                            <img src="Photo/hot.jpg" alt="">
+                        </div>
+
+                        <div class="shelf__info-container">
+                            <div class="shelf__name">Популярні зараз</div>
+                            <div class="shelf__amount-of-movies">0 Фільмів</div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="aside__shelves-container"></div>
+
+
+                <div class="aside__add-bhelf-button add-bhelf-button">
+                    <div class="add-bhelf-button__line-1"></div>
+                    <div class="add-bhelf-button__line-2"></div>
+                </div>
+            </div>
+
+            <div class="change-width"></div>
+        </aside>
+
+        <main class="main">
+
+            <section name="movies">
+
+                <div class="main__grid-movies-container">
+
+                    <div class="main__movie-container movie-container"></div>
+
+                </div>
+
+            </section>
+
+            <section name="pages">
+
+                <div class="main__page-switcher page-switcher" data-curentPage="1" data-searched="false">
+                </div>
+
+            </section>
+        </main>
+    </div>
+
+
+    <script type="module" src="INDEX.js"></script>
+</body>
+</html>
