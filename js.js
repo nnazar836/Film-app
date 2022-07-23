@@ -9,6 +9,7 @@ const application = {
         search.start()
         topShelve.start()
     }
+    
 }
 
 const API ={
